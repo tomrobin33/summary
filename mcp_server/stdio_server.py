@@ -5,6 +5,7 @@ from fastapi.responses import PlainTextResponse
 import uvicorn
 from fastapi.responses import StreamingResponse
 import json
+import time
 
 app = FastAPI()
 
@@ -12,6 +13,14 @@ app = FastAPI()
 def read_root():
     def event_stream():
         yield f"data: {json.dumps({'message': 'Stdio server is running.'})}\n\n"
+    return StreamingResponse(event_stream(), media_type="text/event-stream")
+
+@app.get("/sse")
+def sse():
+    def event_stream():
+        while True:
+            yield f"data: {{\"heartbeat\": \"alive\"}}\n\n"
+            time.sleep(5)
     return StreamingResponse(event_stream(), media_type="text/event-stream")
 
 if __name__ == "__main__":
