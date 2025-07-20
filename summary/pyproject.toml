@@ -1,0 +1,19 @@
+[project]
+name = "mcp-server"
+version = "0.1.0"
+description = "多格式文件解析 MCP 服务器"
+authors = ["tomrobin <your@email.com>"]
+requires-python = ">=3.12"
+
+[tool.setuptools]
+packages = ["mcp_server"]
+
+[project.dependencies]
+fastapi = "*"
+uvicorn = "*"
+requests = "*"
+openpyxl = "*"
+python-docx = "*"
+python-pptx = "*"
+pandas = "*"
+pytest = "*" 
