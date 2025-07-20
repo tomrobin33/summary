@@ -12,17 +12,25 @@ app = FastAPI()
 @app.get("/")
 def read_root():
     def event_stream():
-        while True:
-            yield f"data: {{\"heartbeat\": \"alive\"}}\n\n"
-            time.sleep(5)
+        try:
+            yield f"data: {{\"status\": \"ready\"}}\n\n"
+            while True:
+                yield f"data: {{\"heartbeat\": \"alive\"}}\n\n"
+                time.sleep(5)
+        except Exception as e:
+            yield f"data: {{\"error\": \"{str(e)}\"}}\n\n"
     return StreamingResponse(event_stream(), media_type="text/event-stream")
 
 @app.get("/sse")
 def sse():
     def event_stream():
-        while True:
-            yield f"data: {{\"heartbeat\": \"alive\"}}\n\n"
-            time.sleep(5)
+        try:
+            yield f"data: {{\"status\": \"ready\"}}\n\n"
+            while True:
+                yield f"data: {{\"heartbeat\": \"alive\"}}\n\n"
+                time.sleep(5)
+        except Exception as e:
+            yield f"data: {{\"error\": \"{str(e)}\"}}\n\n"
     return StreamingResponse(event_stream(), media_type="text/event-stream")
 
 if __name__ == "__main__":
