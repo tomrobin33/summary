@@ -3,12 +3,16 @@ import socket
 from fastapi import FastAPI
 from fastapi.responses import PlainTextResponse
 import uvicorn
+from fastapi.responses import StreamingResponse
+import json
 
 app = FastAPI()
 
 @app.get("/")
 def read_root():
-    return PlainTextResponse("Stdio server is running.")
+    def event_stream():
+        yield f"data: {json.dumps({'message': 'Stdio server is running.'})}\n\n"
+    return StreamingResponse(event_stream(), media_type="text/event-stream")
 
 if __name__ == "__main__":
     # 检查 8080 端口是否被占用
