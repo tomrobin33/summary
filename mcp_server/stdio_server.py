@@ -12,7 +12,9 @@ app = FastAPI()
 @app.get("/")
 def read_root():
     def event_stream():
-        yield f"data: {json.dumps({'message': 'Stdio server is running.'})}\n\n"
+        while True:
+            yield f"data: {{\"heartbeat\": \"alive\"}}\n\n"
+            time.sleep(5)
     return StreamingResponse(event_stream(), media_type="text/event-stream")
 
 @app.get("/sse")
